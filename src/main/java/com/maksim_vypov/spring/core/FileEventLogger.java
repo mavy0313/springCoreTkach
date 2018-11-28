@@ -2,6 +2,7 @@ package com.maksim_vypov.spring.core;
 
 import org.apache.commons.io.FileUtils;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 
@@ -22,6 +23,7 @@ public class FileEventLogger implements EventLogger {
         }
     }
 
+    @PostConstruct
     public void init() throws IOException {
         this.file = new File(fileName);
         if (!this.file.canWrite()) {

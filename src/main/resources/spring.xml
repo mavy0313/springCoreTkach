@@ -26,6 +26,8 @@
         <property name="msg" value="Some event for 1"/>
     </bean>
 
+    <bean id="dateFormat" class="java.text.DateFormat" factory-method="getDateTimeInstance"/>
+
     <bean id="combinedEventLogger" class="com.maksim_vypov.spring.core.CombinedEventLogger">
         <constructor-arg>
             <list>
@@ -45,8 +47,6 @@
         <constructor-arg ref="consoleEventLogger"/>
         <constructor-arg ref="loggerMap"/>
     </bean>
-
-    <bean id="dateFormat" class="java.text.DateFormat" factory-method="getDateTimeInstance"/>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">

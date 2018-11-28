@@ -9,10 +9,6 @@
     <bean id="fileEventLogger" class="com.maksim_vypov.spring.core.FileEventLogger" init-method="init">
         <constructor-arg value="loggerFile.txt"/>
     </bean>
-    <!--<bean id="cacheFileEventLogger" class="com.maksim_vypov.spring.core.CacheFileEventLogger" init-method="init" destroy-method="destroy">-->
-        <!--<constructor-arg value="loggerFile.txt"/>-->
-        <!--<constructor-arg value="2"/>-->
-    <!--</bean>-->
 
     <bean id="cacheFileEventLogger" class="com.maksim_vypov.spring.core.CacheFileEventLogger" parent="fileEventLogger" destroy-method="destroy">
         <constructor-arg value="2"/>

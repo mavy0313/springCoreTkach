@@ -2,6 +2,7 @@ package com.maksim_vypov.spring.core;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Map;
@@ -36,7 +37,8 @@ public class App {
     }
 
     public static void main(String[] args) {
-        ctx = new ClassPathXmlApplicationContext("spring.xml");
+//        ctx = new ClassPathXmlApplicationContext("spring.xml");
+        ctx = new AnnotationConfigApplicationContext(LoggersConfig.class, AppConfig.class);
 
         App app = (App) ctx.getBean("app");
 
