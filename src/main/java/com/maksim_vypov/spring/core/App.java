@@ -4,50 +4,45 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.Map;
+
+import static com.maksim_vypov.spring.core.EventType.*;
+
 public class App {
 
     private Client client;
-    private EventLogger eventLogger;
+    private EventLogger defaultLogger;
     private static ApplicationContext ctx;
+    private Map<EventType, EventLogger> loggers;
 
-    //    private void logEvent(Event event) {
-    private void logEvent(String msg, EventType eventType) {
-//        String message = msg.replaceAll(client.getId(), client.getFullName());
-//        String message = event.getMsg();
-
+    private void logEvent(EventType eventType, String msg) {
         String replacedMessage = msg.replaceAll(client.getId(), client.getFullName());
 
         Event event = (Event) ctx.getBean("event");
         event.setMsg(replacedMessage);
 
-        eventLogger.logEvent(event);
+        EventLogger logger = loggers.get(eventType);
+        if (logger == null) {
+            logger = defaultLogger;
+        }
+
+        logger.logEvent(event);
     }
 
-    public App(Client client, EventLogger eventLogger) {
+    public App(Client client, EventLogger defaultLogger, Map<EventType, EventLogger> loggers) {
         this.client = client;
-        this.eventLogger = eventLogger;
+        this.defaultLogger = defaultLogger;
+        this.loggers = loggers;
     }
 
     public static void main(String[] args) {
-//        App app = new App();
-
-//        app.client = new Client("1", "John Smith");
-//        app.eventLogger = new ConsoleEventLogger();
-
-//        app.logEvent("Some event for user 1");
-
         ctx = new ClassPathXmlApplicationContext("spring.xml");
 
         App app = (App) ctx.getBean("app");
 
-        app.logEvent("Some event for 1", null);
-        app.logEvent("Some event for 2", null);
-
-//        Event event = (Event) ctx.getBean("event");
-//        app.logEvent(event);
-//
-//        event = (Event) ctx.getBean("event");
-//        app.logEvent(event);
+        app.logEvent(null,"Some event for 1");
+        app.logEvent(INFO,"Some event for 2");
+        app.logEvent(ERROR,"Some event for 3");
 
         ((ConfigurableApplicationContext) ctx).close();
     }
